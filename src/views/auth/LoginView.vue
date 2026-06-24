@@ -19,18 +19,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-background">
+  <div class="ampr-blue-bg flex min-h-screen items-center justify-center text-white">
     <div class="w-full max-w-sm space-y-6 px-4">
       <!-- Branding -->
       <div class="text-center">
         <h1 class="text-2xl font-bold tracking-tight">Ampersand</h1>
-        <p class="mt-1 text-sm text-muted-foreground">
-          Sign in or create an account
-        </p>
+        <p class="mt-1 text-sm text-white/70">Sign in or create an account</p>
       </div>
 
       <!-- Hanko auth component (login + registration combined) -->
-      <div v-if="!hankoError">
+      <div
+        v-if="!hankoError"
+        class="rounded-xl border border-white/10 bg-white/10 p-4 shadow-xl backdrop-blur-xl"
+      >
         <hanko-auth @onSessionCreated="redirectAfterLogin" />
       </div>
 

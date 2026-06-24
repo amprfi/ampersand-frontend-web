@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Cantarell:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @import "tailwindcss";
 
@@ -10,8 +10,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-sans: 'Geist Variable', sans-serif;
-    --font-heading: var(--font-sans);
+    --font-display: 'Aboreto', sans-serif;
+    --font-ui: 'Cantarell', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    /* Aliases — keep existing shadcn-vue + base styles working during Layer 2 migration */
+    --font-sans: var(--font-body);
+    --font-heading: var(--font-display);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -126,4 +131,24 @@
     @apply bg-background text-foreground;
     @apply font-sans;
     }
+}
+
+.ampr-blue-bg {
+  background: radial-gradient(
+    120% 160% at 50% 120%,
+    #3b4fa0 0%,
+    #1a1e3a 40%,
+    #0e0f1a 100%
+  );
+}
+
+.ampr-blue-sidebar {
+  --sidebar: transparent;
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent: oklch(1 0 0 / 14%);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(1 0 0 / 30%);
 }

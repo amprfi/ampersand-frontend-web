@@ -47,7 +47,6 @@ onMounted(() => {
       margin: 8,
       float: false,
       animate: true,
-      disableOneColumnMode: true,
       draggable: { handle: '.widget-drag-handle' },
       resizable: { handles: 'se, sw' },
     },
@@ -136,20 +135,22 @@ function addWidgetToCanvas(type: string) {
       { w: Math.min(widgetType.fallbackW, GRID_COLUMNS - 3), h: Math.min(widgetType.fallbackH, MAX_ROWS) },
     ]
 
+    let chosen: { w: number; h: number } | null = null
     let spot: { x: number; y: number } | null = null
     for (const size of sizes) {
       spot = findAvailablePosition(size.w, size.h)
       if (spot) {
-        w = size.w
-        h = size.h
+        chosen = size
         break
       }
     }
 
-    if (!spot) {
+    if (!spot || !chosen) {
       // No room even at fallback size — leave in tray
       return
     }
+    w = chosen.w
+    h = chosen.h
     x = spot.x
     y = spot.y
   }
@@ -204,7 +205,7 @@ function removeWidgetFromCanvas(id: string) {
 <template>
   <div class="flex h-full flex-col overflow-hidden">
     <!-- GridStack canvas -->
-    <div ref="canvasArea" class="canvas-bg relative flex-1 overflow-hidden p-2">
+    <div ref="canvasArea" class="ampr-blue-bg relative flex-1 overflow-hidden p-2">
       <div ref="gridContainer" class="dashboard-grid grid-stack">
         <div
           v-for="widget in canvasWidgets"
@@ -248,15 +249,6 @@ function removeWidgetFromCanvas(id: string) {
   height: 100% !important;
   max-height: 100%;
   overflow: hidden;
-}
-
-.canvas-bg {
-  background: radial-gradient(
-    120% 160% at 50% 120%,
-    #3b4fa0 0%,
-    #1a1e3a 40%,
-    #0e0f1a 100%
-  );
 }
 
 /* Remove GridStack's drop shadow on dragged items */
