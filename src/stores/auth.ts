@@ -9,7 +9,7 @@ import { config } from '@/lib/config'
  * IMPORTANT: This store does NOT manage auth state during login. The
  * <hanko-auth> component and router guard handle the login flow:
  *   - <hanko-auth> calls register() internally and manages its own state
- *   - Router guard validates sessions via the backend (credentials: include)
+ *   - Router guard validates sessions via the backend (Bearer token)
  *   - @onSessionCreated on <hanko-auth> triggers the post-login redirect
  *
  * Creating a second Hanko instance during login interferes with the

@@ -18,9 +18,12 @@ interface UseFetchReturn<T> {
 /**
  * Composable for making authenticated API requests to the Ampersand backend.
  *
- * Sends credentials (cookies) so the backend's HankoAuthMiddleware can read
- * the `hanko` cookie. Also attaches the session token as a Bearer header
- * for cross-origin setups where cookies aren't forwarded.
+ * Authentication uses the Hanko session token as a `Bearer` header (read via
+ * `useAuthStore().getSessionToken()`). We intentionally do NOT send cookies
+ * (`credentials: 'include'`): the `hanko` cookie is SameSite=Lax on the SPA
+ * origin and is never sent cross-site to the backend, and sending it would
+ * force a credentialed CORS request that the backend's wildcard CORS config
+ * rejects. The Bearer token is the sole auth transport.
  */
 export function useApi<T>(path: string, options: UseFetchOptions = {}): UseFetchReturn<T> {
   const data = ref<T | null>(null) as Ref<T | null>
@@ -41,7 +44,6 @@ export function useApi<T>(path: string, options: UseFetchOptions = {}): UseFetch
 
       const response = await fetch(`${config.apiBaseUrl}${path}`, {
         method: options.method ?? 'GET',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           ...authHeaders,
@@ -82,7 +84,6 @@ export async function apiFetch(
 
   return fetch(`${config.apiBaseUrl}${path}`, {
     method: options.method ?? 'GET',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...authHeaders,
